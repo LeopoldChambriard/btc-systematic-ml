@@ -1,0 +1,7 @@
+# Ablation: everything identical to default.yaml except that the HMM regime features are
+# computed the way the original coursework did (smoothed over the full series, same-day mapping).
+# This leaks future information. Compare against the default run to size the look-ahead bias:
+#   sysml compare results/default results/ablation_leaky_regimes
+run_name: ablation_leaky_regimes
+regimes:
+  causal: false

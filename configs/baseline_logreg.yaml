@@ -1,0 +1,5 @@
+# Same pipeline, logistic-regression primary model instead of the LSTM.
+# Answers "does the LSTM add anything over a linear model?" and runs without TensorFlow.
+run_name: baseline_logreg
+primary:
+  type: logreg

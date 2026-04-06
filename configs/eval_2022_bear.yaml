@@ -1,0 +1,16 @@
+# Out-of-sample on the 2022 crypto winter, with the model still trained on 2018-2020 only.
+# The coursework flagged this as the missing test (2021 was a bull year).
+# Needs data that extends through 2022 (see data/README.md).
+run_name: eval_2022_bear
+split:
+  train_end: "2020-12-31"
+  test_start: "2022-01-01"
+  test_end: "2022-12-31"
+backtest:
+  stress_periods:
+    - name: May-Jun 2022 (Luna / 3AC)
+      start: "2022-05-01"
+      end: "2022-06-30"
+    - name: Nov 2022 (FTX)
+      start: "2022-11-01"
+      end: "2022-11-30"

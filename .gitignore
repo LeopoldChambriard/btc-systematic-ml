@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Data and run outputs are regenerated, never committed.
+# (Keep a reference run by copying its figures to docs/assets/.)
+data/raw/*
+!data/raw/.gitkeep
+results/*
+!results/.gitkeep
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,84 @@
+# Default configuration. Mirrors the dataclass defaults in src/sysml/config.py
+# (tests/test_config.py fails if the two ever diverge).
+seed: 42
+run_name: default
+output_dir: results
+
+data:
+  path: data/raw/btc_1h.csv
+  asset: BTC            # filters the optional `coin` column
+  max_gap_hours: 6
+
+split:                  # inclusive, end-of-day
+  train_end: "2020-12-31"
+  test_start: "2021-01-01"
+  test_end: "2021-12-31"
+
+regimes:
+  n_gmm: 3
+  n_hmm: 3
+  hmm_n_iter: 200
+  vol_window_daily: 20
+  causal: true          # false = smoothed HMM + same-day mapping (look-ahead; ablation only)
+
+labels:
+  min_window: 10        # trend scanning horizons, in hours
+  max_window: 40
+  meta_horizon: 3
+  meta_threshold: 0.003 # 30 bps cost hurdle
+
+primary:
+  type: lstm            # lstm | logreg
+  seq_len: 24
+  cv_splits: 5
+  logreg_C: 1.0
+  lstm:
+    units1: 128
+    units2: 64
+    dense: 32
+    dropout: 0.3
+    lr: 0.0005
+    batch_size: 256
+    epochs_cv: 50
+    epochs_final: 60
+    patience: 6
+    lr_patience: 3
+    lr_factor: 0.5
+    min_lr: 0.00001
+    val_split: 0.1
+
+meta:
+  n_estimators: 300
+  max_depth: 5
+  min_samples_leaf: 10
+  calibration_splits: 3
+  val_fraction: 0.2
+  threshold_min: 0.30
+  threshold_max: 0.75
+  threshold_step: 0.01
+  default_threshold: 0.5
+  min_support_fraction: 0.10
+  fallback_min_invested: 0.10
+
+importance:
+  n_estimators: 200
+  max_depth: 8
+  n_repeats: 20
+  n_clusters: 8
+  linkage: ward
+
+backtest:
+  cost_bps: 10.0        # per unit of position change
+  periods_per_year: 8760
+  vol_window: 24
+  vol_clip_min: 0.2
+  vol_clip_max: 3.0
+  max_leverage: 1.5     # > 1 is free leverage: no funding cost is modelled
+  bear_prob_threshold: 0.9
+  bear_cap: 0.2
+  sma_fast: 50
+  sma_slow: 200
+  stress_periods:
+    - name: May-Jul 2021 crash
+      start: "2021-05-01"
+      end: "2021-07-31"
